@@ -1,0 +1,42 @@
+services:
+  server:
+    build: .
+    container_name: node_app
+    command: ["npm", "run", "dev"]
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      NODE_ENV: "${NODE_ENV}"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
