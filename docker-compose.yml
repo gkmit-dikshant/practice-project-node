@@ -6,14 +6,11 @@ services:
       - .env
     ports:
       - "3030:${PORT}"
-    environment:
-      NODE_ENV: "${NODE_ENV}"
     depends_on:
       - postgres
       - redis
     volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
+      - .:/usr/app:ro
     command: ["npm", "run", "dev"]
     restart: unless-stopped
 
