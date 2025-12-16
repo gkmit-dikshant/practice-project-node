@@ -2,11 +2,10 @@ services:
   server:
     build: .
     container_name: node_app
-    command: ["npm", "run", "dev"]
     env_file:
       - .env
     ports:
-      - "${PORT}:${PORT}"
+      - "3030:${PORT}"
     environment:
       NODE_ENV: "${NODE_ENV}"
     depends_on:
@@ -15,15 +14,16 @@ services:
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
+    command: ["npm", "run", "dev"]
     restart: unless-stopped
 
   postgres:
     image: postgres:15-alpine
     container_name: postgres_db
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      POSTGRES_DB: "${DB_NAME}"
     ports:
       - "5431:5432"
     volumes:
