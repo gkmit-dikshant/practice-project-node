@@ -10,7 +10,6 @@ const createUser = async (req, res) => {
       "user created successfully",
     );
   } catch (error) {
-    console.error(error);
     res.error(error);
   }
 };
@@ -23,7 +22,6 @@ const updateUser = async (req, res) => {
     const user = await userService.updateUser(userId, req.body);
     res.success(null, 200, "user updated successfully");
   } catch (error) {
-    console.error(error);
     res.error(error);
   }
 };
@@ -95,7 +93,6 @@ const getUserAddress = async (req, res) => {
       "addresses fetched successfully",
     );
   } catch (error) {
-    console.error(error);
     res.error(error);
   }
 };

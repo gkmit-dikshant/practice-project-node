@@ -1,3 +1,5 @@
+const logger = require("../logger");
+
 module.exports = (req, res, next) => {
   res.success = (data, statusCode = 200, message = "success") => {
     return res.status(statusCode).json({
@@ -7,6 +9,7 @@ module.exports = (req, res, next) => {
     });
   };
   res.error = (error) => {
+    logger.error(error.message, { reqId: req.id, error });
     return res.status(error.statusCode || 500).json({
       success: false,
       message: error.message || "internal server error",

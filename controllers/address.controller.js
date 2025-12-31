@@ -10,7 +10,6 @@ const createAddress = async (req, res) => {
       "address created successfully",
     );
   } catch (error) {
-    console.error(error);
     res.error(error);
   }
 };
@@ -24,7 +23,6 @@ const updateAddress = async (req, res) => {
 
     res.success(null, 200, "address updated successfully");
   } catch (error) {
-    console.error(error);
     res.error(error);
   }
 };
@@ -37,7 +35,6 @@ const deleteAddress = async (req, res) => {
     await addressService.deleteAddress(addressId);
     res.success(null, 204, "address deleted successfully");
   } catch (error) {
-    console.error(error);
     res.error(error);
   }
 };
@@ -54,7 +51,6 @@ const getAddress = async (req, res) => {
       "address fetched successfully",
     );
   } catch (error) {
-    console.error(error);
     res.error(error);
   }
 };

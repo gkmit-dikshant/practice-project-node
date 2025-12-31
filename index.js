@@ -2,14 +2,21 @@ const express = require("express");
 const router = require("./routes");
 const { sequelize } = require("./models");
 const { client } = require("./config/redis");
-const logger = require("./utils/logger");
+const httpLogger = require("./logger/httpLogger");
 const responseMiddleware = require("./middlewares/response.middleware");
+const logger = require("./logger");
+const crypto = require("crypto");
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  req.id = crypto.randomUUID();
+  next();
+});
 
-app.use(logger);
+app.use(httpLogger);
 app.use(responseMiddleware);
+
 app.use("/api", router);
 app.get("/api/health", async (_req, res) => {
   try {
@@ -23,7 +30,7 @@ app.get("/api/health", async (_req, res) => {
       redis: redisPong,
     });
   } catch (error) {
-    console.error(error);
+    logger.error("Health check fails");
     res.error(error);
   }
 });
@@ -31,5 +38,5 @@ app.get("/api/health", async (_req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`server is running at ${PORT}`);
+  logger.info(`server is running at ${PORT}`);
 });
