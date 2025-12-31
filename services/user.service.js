@@ -8,7 +8,6 @@ const createUser = async (data) => {
     await cache.clear("USERS");
     return newUser;
   } catch (error) {
-    console.error(error);
     if (error.name === "SequelizeUniqueConstraintError") {
       throw {
         statusCode: 409,
