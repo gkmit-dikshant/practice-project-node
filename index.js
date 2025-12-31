@@ -9,13 +9,13 @@ const crypto = require("crypto");
 
 const app = express();
 app.use(express.json());
-
-app.use(httpLogger);
-app.use(responseMiddleware);
 app.use((req, res, next) => {
   req.id = crypto.randomUUID();
   next();
 });
+
+app.use(httpLogger);
+app.use(responseMiddleware);
 
 app.use("/api", router);
 app.get("/api/health", async (_req, res) => {

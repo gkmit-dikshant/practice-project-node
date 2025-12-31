@@ -18,7 +18,7 @@ const logLevels = {
 
 const logger = createLogger({
   levels: logLevels,
-  level: process.env.LOG_LEVEL || "error",
+  level: process.env.LOG_LEVEL || "info",
   format: combine(
     errors({ stack: true }),
     timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
